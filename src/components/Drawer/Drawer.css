@@ -1,0 +1,19 @@
+.navigation-avatar-div {
+        padding: 15px 0 20px 15px;
+        background-image:  url('../../images/menu-bg.png');
+        height: 110px;
+      }
+.navigation-icon {
+        float: left;
+        display: block;
+        margin-right: 15px;
+        box-shadow: 0px 0px 0px 8px rgba(0,0,0,0.2);
+      }
+.navigation-span {
+        padding-top: 32px;
+        display: block;
+        color: white;
+        font-size: 20px;
+        font-weight: 200px;
+        text-shadow: 1px 1px #444;
+      }
