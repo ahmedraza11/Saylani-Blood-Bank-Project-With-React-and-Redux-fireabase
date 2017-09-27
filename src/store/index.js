@@ -8,10 +8,13 @@ const middleware = applyMiddleware(thunk);
 
 export const rootReducers = combineReducers({
     AuthReducer,
-    // DonorReducer
+    DonorReducer
 })
 
 export let store = createStore(
     rootReducers,
     middleware
-);
+);  
+let unsubscribe = store.subscribe(() =>
+  console.log("Changed in State======",store.getState())
+)

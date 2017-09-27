@@ -23,7 +23,7 @@ function mapDispatchToProps(dispatch){
 class Dashboard extends Component {
     render(){
         return(
-            <div style="margin: auto">
+            <div>
                 {this.props.children}
             </div>  
         );

@@ -126,7 +126,6 @@ class App extends Component {
                     }
 
                 />
-                <h1>Welcome To App Component</h1>
                 {this.props.children}
             </div>
         );

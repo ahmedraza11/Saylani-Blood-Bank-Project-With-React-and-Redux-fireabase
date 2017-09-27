@@ -21,13 +21,16 @@ function DonorReducer(state = INITIAL_STATE, action) {
             var newDonorList = [...state.donorList];
             newDonorList.push(action.payload);
             return { ...state, isProcessing: false, isError: false, donorList: newDonorList };
-            
+        case DonorAction.ADD_DONOR_FAILED:
+            return { ...state, isProcessing: false, isError: true, errorMessage: action.payload }
         case DonorAction.GET_DONOR_LIST:
             return { ...state, isProcessing: true, isError: false, donorList: [] };
         case DonorAction.GET_DONOR_DETAIL_SUCCESSFULL:
             return { ...state, isProcessing: false, isError: false, errorMessage: {}, donorDetail: action.payload }
         case DonorAction.GET_DONOR_LIST_REJECTED:
             return { ...state, isProcessing: false, isError: true, errorMessage: action.payload, donorDetail: {} };
+        default:
+            return state;
     }
 }
 

@@ -8,11 +8,15 @@ import PersonAdd from 'material-ui/svg-icons/social/person-add';
 import './Login.css';
 import { grey500 } from 'material-ui/styles/colors';
 import AuthMiddleware from '../../../store/Middleware/authMiddleware';
-import CircularProgress from 'material-ui/CircularProgress'
+import CircularProgress from 'material-ui/CircularProgress';
+import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react';
+import SweetAlert from 'sweetalert-react';
 function mapStateToProps(state) {
     return {
         isAuthenticated: state.AuthReducer.isAuthenticated,
-        isProcessing: state.AuthReducer.isProcessing
+        isProcessing: state.AuthReducer.isProcessing,
+        isError: state.AuthReducer.isError,
+        errorMessage: state.AuthReducer.errorMessage
     }
 }
 function mapDispatchToProps(dispatch) {
@@ -27,12 +31,17 @@ class Login extends Component {
     constructor() {
         super();
         this.handleSign = this.handleSign.bind(this);
+        this.state = {
+            show: false
+        }
     }
     componentWillReceiveProps(nextProps) {
         setTimeout(() => {
-            if (this.props.isAuthenticated){
+            if (this.props.isAuthenticated) {
                 console.log("user is Authenticated");
                 this.context.router.push('/');
+            }else if(this.props.isError){
+                this.setState({show: true})
             }
         }, 0)
     }
@@ -66,17 +75,30 @@ class Login extends Component {
                                     <MUI.Checkbox
                                         label="Remember me"
                                         className="long-checkRemember"
-                                        lableStyle={{ color: grey500 }}
+                                       // lableStyle={{ color: grey500 }}
                                         iconStyle={{ color: grey500, borderColor: grey500, fill: grey500 }}
                                     />
-                                   
-                                     <MUI.RaisedButton
-                                        label={(this.props.isProcessing)?<CircularProgress color="white" size={28} thickness={3} />:"Login"}
+
+                                    <MUI.RaisedButton
+                                        /*label={(this.props.isProcessing) ? <CircularProgress color="white" size={29} thickness={3} /> : "Login"}*/
+                                        label="Login"
                                         primary={true}
                                         className="long-loginBtn"
                                         onTouchTap={this.handleSign}
                                     />
-                                   
+                                    <SweetAlert
+                                        show={this.state.show}
+                                        title="Login Failed"
+                                        text={this.props.errorMessage}
+                                        onConfirm={() => {
+                                            this.setState({ show: false })
+                                        }
+                                        }
+
+                                    />
+                                    <Dimmer active={this.props.isProcessing} inverted page>
+                                        <Loader size='medium'>Loading</Loader>
+                                    </Dimmer>
                                 </div>
                             </form>
                         </MUI.Paper>

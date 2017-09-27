@@ -19,11 +19,11 @@ export default class DonorMiddleware {
                 dispatch(AuthMiddleware.updateUser(donorDetail));
             });
     }
-
+    
     //*** Fetch User Detail ***/
 
     static getDonorList(bloodGroup) {
-        console.log("Blood Group", bloodGroup);
+        console.log("Middleware====Blood Group", bloodGroup);
         return (dispatch) => {
             dispatch(DonorAction.getDonorList());
             DonorMiddleware.getDonorListFromFirebase(dispatch, bloodGroup);

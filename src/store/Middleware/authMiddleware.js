@@ -11,7 +11,7 @@ export default class AuthMiddleware {
         console.log("test", credentials);
         return (dispatch) => {
             dispatch(AuthAction.signup())
-            AuthMiddleware.registerOnFirebase(dispatch, credentials);
+                AuthMiddleware.registerOnFirebase(dispatch, credentials);
         }
     }
 
@@ -67,7 +67,7 @@ export default class AuthMiddleware {
                 })
         }
     }
-
+    
     //Signup Function End's Here****//
 
 

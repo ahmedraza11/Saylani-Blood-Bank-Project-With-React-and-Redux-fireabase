@@ -7,6 +7,7 @@ import App from './components/App/App';
 import Routes from './Routes';
 import './config/config';
 import 'semantic-ui-css/semantic.css';
+import 'sweetalert/dist/sweetalert.css'
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(

@@ -3,10 +3,11 @@
       max-width: 400px;
       height: auto;
       position: absolute;
-      top: 20%;
+      top: 10%;
       left: 0;
       right: 0;
       margin: auto;
+      margin-bottom: 60px;
 }
 
 .signup-paper {

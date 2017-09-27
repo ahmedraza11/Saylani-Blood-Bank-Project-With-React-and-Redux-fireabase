@@ -1,19 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import AuthMiddleware from '../../../store/Middleware/authMiddleware';
+import CircularProgress from 'material-ui/CircularProgress'
+import SweetAlert from 'sweetalert-react';
+import Webcam from 'react-webcam';
 import * as MUI from 'material-ui';
+import './Signup.css';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import './Signup.css';
-import AuthMiddleware from '../../../store/Middleware/authMiddleware';
 import { style } from '../../../style.js';
-import CircularProgress from 'material-ui/CircularProgress'
-import Webcam from 'react-webcam';
-import { Button } from 'semantic-ui-react';
-import ModalModalExample from '../../../Elements/Model'
+import { Button, Dimmer, Loader, Image, Segment } from 'semantic-ui-react';
+
 function mapStateToProps(state) {
     return {
         isRegisterd: state.AuthReducer.isRegisterd,
-        isProcessing: state.AuthReducer.isProcessing
+        isProcessing: state.AuthReducer.isProcessing,
+        isRegistered: state.AuthReducer.isRegistered,
+        errorMessage: state.AuthReducer.errorMessage,
+        isError: state.AuthReducer.isError,
+
     };
 }
 function mapDispatchToProps(dispatch) {
@@ -38,14 +43,15 @@ class Signup extends Component {
             screenShot: null,
             captured: false,
             webcam: false,
-            webcamSrc: null
+            webcamSrc: null,
+            show: false
         }
         this.handleSignup = this.handleSignup.bind(this);
         this.handleImageChange = this.handleImageChange.bind(this);
     }
     handleSubmit(e) {
         e.preventDefault();
-        
+
     }
     handleCapture() {
         var screenShot = this.webcam.getScreenshot();
@@ -97,11 +103,12 @@ class Signup extends Component {
         this.props.signup(userData, this.state.webcam, this.state.file);
     }
     componentWillReceiveProps(nextProps) {
+        console.log("isRegisterd", nextProps);
         setTimeout(() => {
-            if (this.props.isRegisterd) {
+            if (this.props.isRegistered) {
                 console.log("isRegistered is True in SignUp");
                 this.context.router.push("/login");
-            }
+            } 
         }, 0);
     }
     render() {
@@ -110,7 +117,7 @@ class Signup extends Component {
                 <div>
                     <div className="signup-loginContainer">
                         <h3>Signup Form</h3>
-                        <MUI.Divider/>
+                        <MUI.Divider />
                         <MUI.Paper className="signup-paper">
                             <form>
                                 <MUI.TextField
@@ -173,15 +180,20 @@ class Signup extends Component {
                                     />
                                 </div>
                             </form>
+
+                            {/* <SweetAlert
+                                show={this.state.show}
+                                title="Signup Failed"
+                                text={this.props.errorMessage}
+                                onConfirm={() => {
+                                    this.setState({ show: false })
+                                }}
+                            /> */}
+
                         </MUI.Paper>
-                        <div className="signup-buttonDiv">
-                            <Link to="/login">
-                                <MUI.RaisedButton
-                                    label="Login"
-                                    className="signup-flatButton"
-                                />
-                            </Link>
-                        </div>
+                        <Dimmer active={this.props.isProcessing} inverted page>
+                            <Loader size='medium'>Creating User</Loader>
+                        </Dimmer>
                     </div>
                 </div>
             </MuiThemeProvider>
